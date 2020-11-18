@@ -10,7 +10,7 @@ function docUrl(id) {
 export function getDocs(searchString) {
   return http.get(apiEndpoint, { 
     params: { 
-      search_string: "acd"
+      search_string: searchString
     } 
   });
 }

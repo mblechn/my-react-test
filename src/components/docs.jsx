@@ -7,8 +7,14 @@ import DocsTable from "./docsTable";
 import ListGroup from "./common/listGroup";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
-import _ from "lodash";
-import SearchBox from "./searchBox";
+//import _ from "lodash";
+//import SearchBox from "./searchBox";
+
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
+import Button from 'react-bootstrap/Button';
+
+//import { getDocs } from "../services/documentService";
 
 class Docs extends Component {
   state = {
@@ -21,23 +27,21 @@ class Docs extends Component {
     ],
     currentPage: 1,
     pageSize: 4,
-    searchQuery: "",
+    searchString: "",
     selectedDocType: null,
     sortColumn: { path: "title", order: "asc" }
   };
 
-  async componentDidMount() {
-    const { data: docs } = await documentService.getDocs("acd");
-    console.log(docs);
-    this.setState({ docs });
-  }
-
   handleDocTypeSelect = docType => {
-    //this.setState({ selectedDocType: docType, searchQuery: "", currentPage: 1 });
+    //this.setState({ selectedDocType: docType, searchString: "", currentPage: 1 });
   };
 
   handleSearch = query => {
-    this.setState({ searchQuery: query, selectedDocType: null, currentPage: 1 });
+    this.setState({ searchString: query, selectedDocType: null, currentPage: 1 });
+  };
+
+  handlePageChange = page => {
+    this.setState({ currentPage: page });
   };
 
   getPagedData = () => {
@@ -46,14 +50,14 @@ class Docs extends Component {
       currentPage,
       sortColumn,
       selectedDocType,
-      searchQuery,
+      searchString,
       docs: allDocs
     } = this.state;
 
     let filtered = allDocs;
-    // if (searchQuery)
+    // if (searchString)
     //   filtered = allMovies.filter(m =>
-    //     m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+    //     m.title.toLowerCase().startsWith(searchString.toLowerCase())
     //   );
     // else if (selectedDocType && selectedDocType._id)
     //   filtered = allMovies.filter(m => m.genre._id === selectedGenre._id);
@@ -66,12 +70,22 @@ class Docs extends Component {
     return { totalCount: filtered.length, data: docs };
   };
 
+  handleSubmit = async(e) => {
+    e.preventDefault();
+    const { data: docs } = await documentService.getDocs(this.state.searchString);
+    this.setState({ docs });
+  };
+
+  handleSearchStringChange = e => {
+    this.setState({ searchString: e.currentTarget.value });
+  }
+
   render() { 
     const { length: count } = this.state.docs;
-    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
+    const { pageSize, currentPage, sortColumn, searchString } = this.state;
     const { user } = this.props;
 
-    if (count === 0) return <p>No documents match your search criteria..</p>;
+    //if (count === 0) return <p>No documents match your search criteria.</p>;
 
     const { totalCount, data: docs } = this.getPagedData();
 
@@ -86,8 +100,16 @@ class Docs extends Component {
         </div>
         
         <div className="col">
+          <form onSubmit={this.handleSubmit}>
+            <InputGroup className="my-3">
+              <FormControl value={searchString} onChange={this.handleSearchStringChange} placeholder="Search ..." />
+              <InputGroup.Append>
+                <Button variant="outline-primary" type="submit">Search</Button>
+              </InputGroup.Append>
+            </InputGroup>
+          </form>
+
           <p>Showing {totalCount} documents from your query.</p>
-          <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <DocsTable
             docs={docs}
             sortColumn={sortColumn}

@@ -7,6 +7,7 @@ import LoginForm from './components/loginForm';
 import Logout from './components/logout';
 import Docs from './components/docs';
 import auth from "./services/authService";
+import ProtectedRoute from "./components/common/protectedRoute";
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
@@ -16,8 +17,6 @@ class App extends Component {
   componentDidMount() {
     const user = auth.getCurrentUser();
     this.setState({ user });
-    console.log(user);
-    //if (!user) window.location = "/login";
   }
 
   render() { 
@@ -29,7 +28,10 @@ class App extends Component {
           <Switch>      
             <Route path="/login" component={LoginForm}></Route>
             <Route path="/logout" component={Logout}></Route>
-            <Route path="/docs" component={Docs}></Route>
+            <ProtectedRoute 
+              path="/docs"
+              render={props => <Docs {...props} user={this.state.user} />}
+            />
             <Redirect from="/" exact to="/docs" />
             <Redirect to="/docs" />
           </Switch>

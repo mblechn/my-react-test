@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 const NavBar = ({ user }) => {
   return (
     <Navbar bg="light" expand="md">
-      <Navbar.Brand href="#home">MedEdSearch</Navbar.Brand>
+      <Navbar.Brand style={{ cursor: "default" }} href="">MedEdSearch</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
