@@ -3,7 +3,11 @@
 * cd my-react-test
 * npm install react-bootstrap bootstrap
 * npm install --save react-router-dom
-* npm install --save @fortawesome/fontawesome-free
+* npm i --save @fortawesome/fontawesome-svg-core
+* npm install --save @fortawesome/free-solid-svg-icons
+* npm install --save @fortawesome/react-fontawesome
+* npm install --save @fortawesome/free-brands-svg-icons
+* npm install --save @fortawesome/free-regular-svg-icons
 * npm install --save joi-browser
 * npm install --save jwt-decode
 * npm install --save axios

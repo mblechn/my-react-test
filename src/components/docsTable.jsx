@@ -6,18 +6,9 @@ import Like from "./common/like";
 
 class DocsTable extends Component {
   columns = [
-    {
-      path: "filename",
-      label: "File",
-      content: doc => <Link to={`/docs/${doc.id}`}>{doc.filename}</Link>
-    },
-    { path: "score", label: "Score" },
-    {
-      key: "like",
-      content: doc => (
-        <Like liked={doc.liked} onClick={() => this.props.onLike(doc)} />
-      )
-    }
+    { path: "filename", label: "File", content: doc => <Link to={`/docs/${doc.id}`}>{doc.filename}</Link> },
+    { path: "highlights", label: "Highlights" },
+    { path: "score", label: "Score" }
   ];
 
   // deleteColumn = {

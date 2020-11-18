@@ -7,14 +7,11 @@ import DocsTable from "./docsTable";
 import ListGroup from "./common/listGroup";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
-//import _ from "lodash";
-//import SearchBox from "./searchBox";
+import _ from "lodash";
 
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-
-//import { getDocs } from "../services/documentService";
 
 class Docs extends Component {
   state = {
@@ -29,7 +26,7 @@ class Docs extends Component {
     pageSize: 4,
     searchString: "",
     selectedDocType: null,
-    sortColumn: { path: "title", order: "asc" }
+    sortColumn: { path: "score", order: "desc" }
   };
 
   handleDocTypeSelect = docType => {
@@ -62,8 +59,8 @@ class Docs extends Component {
     // else if (selectedDocType && selectedDocType._id)
     //   filtered = allMovies.filter(m => m.genre._id === selectedGenre._id);
 
-    //const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-    const sorted = filtered;
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+    //const sorted = filtered;
 
     const docs = paginate(sorted, currentPage, pageSize);
 
@@ -80,6 +77,11 @@ class Docs extends Component {
     this.setState({ searchString: e.currentTarget.value });
   }
 
+  handleSort = sortColumn => {
+    console.log(sortColumn);
+    this.setState({ sortColumn });
+  };
+
   render() { 
     const { length: count } = this.state.docs;
     const { pageSize, currentPage, sortColumn, searchString } = this.state;
@@ -91,7 +93,7 @@ class Docs extends Component {
 
     return (
       <div className="row">
-        <div className="col-3">
+        <div className="col-2">
           <ListGroup
             items={this.state.docTypes}
             selectedItem={this.state.selectedDocType}

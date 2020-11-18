@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons'
 
 // columns: array
 // sortColumn: object
@@ -6,6 +8,7 @@ import React, { Component } from "react";
 
 class TableHeader extends Component {
   raiseSort = path => {
+    //console.log(this.props.sortColumn.path);
     const sortColumn = { ...this.props.sortColumn };
     if (sortColumn.path === path)
       sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
@@ -19,9 +22,11 @@ class TableHeader extends Component {
   renderSortIcon = column => {
     const { sortColumn } = this.props;
 
+    console.log("column.path: " + column.path);
+    console.log("sortColumn.path: " + sortColumn.path);
     if (column.path !== sortColumn.path) return null;
-    if (sortColumn.order === "asc") return <i className="fa fa-sort-asc" />;
-    return <i className="fa fa-sort-desc" />;
+    if (sortColumn.order === "asc") return <FontAwesomeIcon icon={faSortUp} />;
+    return <FontAwesomeIcon icon={faSortDown} />;
   };
 
   render() {
